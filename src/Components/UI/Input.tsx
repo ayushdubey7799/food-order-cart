@@ -2,7 +2,8 @@ import React from 'react';
 
 import classes from './Input.module.css';
 
-const Input = React.forwardRef((props, ref) => {
+
+const Input = React.forwardRef((props : any, ref:React.ForwardedRef<HTMLInputElement>) => {
   return (
     <div className={classes.input}>
       <label htmlFor={props.input.id}>{props.label}</label>

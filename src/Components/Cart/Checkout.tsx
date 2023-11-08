@@ -1,35 +1,44 @@
-import { useRef, useState } from 'react';
+import React,{ useRef, useState } from 'react';
 
 import classes from './Checkout.module.css';
+type validity = {
+  name: boolean | undefined,
+  street: boolean | undefined,
+  city: boolean | undefined,
+  postalCode: boolean | undefined
+}
+const isEmpty = (value: string) => value.trim() === '';
+const isFiveChars = (value: string) => value.trim().length === 5;
 
-const isEmpty = (value) => value.trim() === '';
-const isFiveChars = (value) => value.trim().length === 5;
-
-const Checkout = (props) => {
-  const [formInputsValidity, setFormInputsValidity] = useState({
+const Checkout = (props: { onConfirm: (arg0: { name: string | undefined; street: string | undefined; city: string | undefined; postalCode: string | undefined; }) => void; onCancel: React.MouseEventHandler<HTMLButtonElement> | undefined; }) => {
+  const [formInputsValidity, setFormInputsValidity] = useState<validity>({
     name: true,
     street: true,
     city: true,
     postalCode: true,
   });
 
-  const nameInputRef = useRef();
-  const streetInputRef = useRef();
-  const postalCodeInputRef = useRef();
-  const cityInputRef = useRef();
+  const nameInputRef = useRef<HTMLInputElement | null>(null);;
+  const streetInputRef = useRef<HTMLInputElement | null>(null);;
+  const postalCodeInputRef = useRef<HTMLInputElement | null>(null);;
+  const cityInputRef = useRef<HTMLInputElement | null>(null);;
 
-  const confirmHandler = (event) => {
+  const confirmHandler = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-
-    const enteredName = nameInputRef.current.value;
-    const enteredStreet = streetInputRef.current.value;
-    const enteredPostalCode = postalCodeInputRef.current.value;
-    const enteredCity = cityInputRef.current.value;
-
-    const enteredNameIsValid = !isEmpty(enteredName);
-    const enteredStreetIsValid = !isEmpty(enteredStreet);
-    const enteredCityIsValid = !isEmpty(enteredCity);
-    const enteredPostalCodeIsValid = isFiveChars(enteredPostalCode);
+    let enteredName, enteredStreet, enteredPostalCode, enteredCity;
+  if(nameInputRef.current && streetInputRef.current && postalCodeInputRef.current && cityInputRef.current){
+     enteredName = nameInputRef.current.value;
+     enteredStreet = streetInputRef.current.value;
+     enteredPostalCode = postalCodeInputRef.current.value;
+     enteredCity = cityInputRef.current.value;
+  }
+    
+   let enteredNameIsValid, enteredStreetIsValid, enteredCityIsValid, enteredPostalCodeIsValid;
+     if(enteredName && enteredCity && enteredStreet && enteredPostalCode){
+      enteredNameIsValid = !isEmpty(enteredName);
+     enteredStreetIsValid = !isEmpty(enteredStreet);
+     enteredCityIsValid = !isEmpty(enteredCity);
+     enteredPostalCodeIsValid = isFiveChars(enteredPostalCode);}
 
     setFormInputsValidity({
       name: enteredNameIsValid,

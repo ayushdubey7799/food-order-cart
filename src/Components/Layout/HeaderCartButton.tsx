@@ -1,17 +1,22 @@
-import { useContext, useEffect, useState } from 'react';
+import React,{ useContext, useEffect, useState } from 'react';
 
 import CartIcon from '../Cart/CartIcon';
 import CartContext from '../../store/cart-context';
 import classes from './HeaderCartButton.module.css';
+import { cartCtxType } from '../../store/cart-context';
+type itemType = {
+  amount : number
+}
 
-const HeaderCartButton = (props) => {
+const HeaderCartButton = (props: { onClick: React.MouseEventHandler<HTMLButtonElement> | undefined; }) => {
   const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
-  const cartCtx = useContext(CartContext);
+  const cartCtx =  useContext<cartCtxType>(CartContext);
 
-  const { items } = cartCtx;
-
+  const { items  } = cartCtx;
+  
   const numberOfCartItems = items.reduce((curNumber, item) => {
-    return curNumber + item.amount;
+    let x = item as itemType;
+    return curNumber + x.amount;
   }, 0);
 
   const btnClasses = `${classes.button} ${btnIsHighlighted ? classes.bump : ''}`;

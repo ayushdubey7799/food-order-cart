@@ -3,22 +3,24 @@ import React, { useContext, useState } from 'react';
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
 import classes from './Cart.module.css';
-import CartContext from '../../store/cart-context';
+import CartContext, { cartCtxType } from '../../store/cart-context';
 import Checkout from './Checkout';
 
-const Cart = (props) => {
+
+
+const Cart = (props: { onClose: React.MouseEventHandler<HTMLElement> }) => {
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
-  const cartCtx = useContext(CartContext);
+  const cartCtx = useContext<cartCtxType>(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
-  const cartItemRemoveHandler = (id) => {
+  const cartItemRemoveHandler = (id: any) => {
     cartCtx.removeItem(id);
   };
 
-  const cartItemAddHandler = (item) => {
+  const cartItemAddHandler = (item: any) => {
     cartCtx.addItem(item);
   };
 
@@ -26,7 +28,7 @@ const Cart = (props) => {
     setIsCheckout(true);
   };
 
-  const submitOrderHandler = async (userData) => {
+  const submitOrderHandler = async (userData: any) => {
     setIsSubmitting(true);
     await fetch('https://food-order-app-851d6-default-rtdb.firebaseio.com/orders.json', {
       method: 'POST',

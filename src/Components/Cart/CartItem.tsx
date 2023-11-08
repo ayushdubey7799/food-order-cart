@@ -1,6 +1,16 @@
+import { cartCtxType, mealType } from '../../store/cart-context';
 import classes from './CartItem.module.css';
+import React, { MouseEventHandler } from 'react';
 
-const CartItem = (props) => {
+type cartItemProps = {
+  onRemove: MouseEventHandler<HTMLButtonElement> ;
+  onAdd: MouseEventHandler<HTMLButtonElement>;
+  name: string,
+  price: number,
+  amount: number,
+}
+
+const CartItem = (props: cartItemProps) => {
   const price = `$${props.price.toFixed(2)}`;
 
   return (

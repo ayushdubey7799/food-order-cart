@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import React,{ useEffect, useState } from 'react';
 
 import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
+import { mealType } from '../../store/cart-context';
 
-const AvailableMeals = () => {
-  const [meals, setMeals] = useState([]);
+
+
+const AvailableMeals:React.FC = () => {
+  const [meals, setMeals] = useState<mealType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState();
 
@@ -21,11 +24,11 @@ const AvailableMeals = () => {
 
       const responseData = await response.json();
 
-      const loadedMeals = [];
+      const loadedMeals : mealType[] = [];
 
       for (const key in responseData) {
         loadedMeals.push({
-          id: key,
+          id: +key,
           name: responseData[key].name,
           description: responseData[key].description,
           price: responseData[key].price,
@@ -60,7 +63,7 @@ const AvailableMeals = () => {
 
   const mealsList = meals.map((meal) => (
     <MealItem
-      key={meal.id}
+      key={+meal.id}
       id={meal.id}
       name={meal.name}
       description={meal.description}
